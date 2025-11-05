@@ -442,21 +442,7 @@ const Settings = () => {
                     />
                   </div>
 
-                  <div className="flex justify-end gap-3">
-                    <Button type="button" variant="outline" onClick={() => navigate(-1)}>
-                      Cancel
-                    </Button>
-                    <Button type="submit" disabled={loading}>
-                      {loading ? (
-                        <>Saving...</>
-                      ) : (
-                        <>
-                          <Save className="mr-2 h-4 w-4" />
-                          Save Changes
-                        </>
-                      )}
-                    </Button>
-                  </div>
+                  
                 </form>
               </CardContent>
             </Card>
@@ -698,7 +684,21 @@ const Settings = () => {
                 ))}
               </CardContent>
             </Card>
-
+                <div className="flex justify-end gap-3 mt-4">
+                    <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={loading}>
+                      {loading ? (
+                        <>Saving...</>
+                      ) : (
+                        <>
+                          <Save className="mr-2 h-4 w-4" />
+                          Save Changes
+                        </>
+                      )}
+                    </Button>
+                  </div>
             {/* Danger Zone */}
             <Card className="border-red-200 mt-4">
               <CardHeader>
