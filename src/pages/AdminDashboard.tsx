@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
@@ -46,6 +47,7 @@ import NewsEditModal from "@/components/admin/NewsEditModal";
 import EventCreationForm from "@/components/events/EventCreationForm";
 import NewsCreationModal from "@/components/admin/NewsCreationModal";
 import * as XLSX from "xlsx";
+import { supabase } from "@/utilities/supabase";
 
 type User = {
   id: string;
@@ -136,6 +138,7 @@ type UploadResult = {
 };
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("overview");
   const [users, setUsers] = useState<User[]>([]);
   const [showCreateEventDialog, setShowCreateEventDialog] = useState(false);
@@ -260,6 +263,19 @@ const AdminDashboard = () => {
   ).length;
   const totalEvents = events.length;
   const totalNews = news.length;
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut();
+      localStorage.removeItem("userId");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("userRole");
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Failed to logout");
+    }
+  };
 
   const handleVerificationChange = async (
     userId: string,
@@ -738,7 +754,12 @@ const AdminDashboard = () => {
               Manage users, events, news, and athlete statistics
             </p>
           </div>
-          <Button variant="outline" size="sm" className="gap-2">
+          <Button
+            variant="outline"
+            size="sm"
+            className="gap-2"
+            onClick={handleLogout}
+          >
             <LogOut className="h-4 w-4" />
             Log out
           </Button>
